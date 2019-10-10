@@ -1,8 +1,10 @@
 
 src/Config.sh
-
 src/GIZMO_config.h
-
 src/compile_time_info.c
+src/GIZMO
+
+src/*.o
+src/*/*.o
 
 .tags
