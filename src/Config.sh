@@ -75,12 +75,12 @@ HYDRO_MESHLESS_FINITE_MASS     # solve hydro using the mesh-free Lagrangian (fix
 							    # This is useful if the mass loss is so small that it can be neglected.
 #DMAF_LIMIT_DM_TIMESTEP=2       # Enforces that DM particle i is in a time bin not higher than DMAF_LIMIT_DM_TIMESTEP levels as compared to the time bins of gas particles that receive energy from it.
 #DMAF_DENSITY_WEIGHTED 		    # Instead of calculating the distribution of the energy from DM particle i to gas particles j according to solid angle, simply weight by density of particle j.
-#DMAF_DISABLE_BIAS_CORRECTION	# Disable the rescaling of the injection rate that accounts for expansion of the universe. 
+#DMAF_DISABLE_BIAS_CORRECTION	# Disable the rescaling of the injection rate that accounts for expansion of the universe.
 								# NOTE: If this is off, e = mc^2 no longer holds exactly, but energy calculation is more accurate.
 #DMAF_INJECT_AFTER_DM_STEP      # Inject energy from DMAF into gas only after each (typically larger) DM time step. This will lead to less accuracy and more noisy results.
-#INJECT_ENERGY_DM			   # Test energy injection used for annihilating DM: Method 2 (calculation at DM particles) (switch DMANNIHILATION_DM OFF)						  
+#INJECT_ENERGY_DM			   # Test energy injection used for annihilating DM: Method 2 (calculation at DM particles) (switch DMANNIHILATION_DM OFF)
 								# NOTE: DM particle cross section and mass need to be defined in parameter file (although they are not used)!
-								# IMPORTANT: EnergyID for injection must be the ID of a DM particle that INJECTS the energy! 
+								# IMPORTANT: EnergyID for injection must be the ID of a DM particle that INJECTS the energy!
 ## -----------------------------------------------------------------------------------------------------
 #STORE_MASS              		# Store the mass of each particle type as read from the ICs.
 								# This assumes that no other option changes the particle masses!
@@ -165,7 +165,7 @@ METALS                         # enable metallicities (with multiple species opt
 ## ------------------------ Gravity & Cosmological Integration Options ---------------------------------
 ####################################################################################################
 # --------------------------------------- TreePM Options (recommended for cosmological sims)
-PMGRID=16                      # adds Particle-Mesh grid for faster (but less accurate) long-range gravitational forces: value sets resolution (e.g. a PMGRID^3 grid will overlay the box, as the 'top level' grid)
+PMGRID=128                      # adds Particle-Mesh grid for faster (but less accurate) long-range gravitational forces: value sets resolution (e.g. a PMGRID^3 grid will overlay the box, as the 'top level' grid)
 #PM_PLACEHIGHRESREGION=1+2+16   # adds a second-level (nested) PM grid before the tree: value denotes particle types (via bit-mask) to place high-res PMGRID around. Requires PMGRID.
 #PM_HIRES_REGION_CLIPPING=1000  # optional additional criterion for boundaries in 'zoom-in' type simulations: clips gas particles that escape the hires region in zoom/isolated sims, specifically those whose nearest-neighbor distance exceeds this value (in code units)
 #PM_HIRES_REGION_CLIPDM         # split low-res DM particles that enter high-res region (completely surrounded by high-res)
@@ -226,7 +226,7 @@ GALSF                           # master switch for galactic star formation mode
 #GALSF_SFR_MOLECULAR_CRITERION   # estimates molecular/self-shielded fraction in SF-ing gas, only SF from that is allowed. Cite Krumholz & Gnedin (ApJ 2011 729 36) and Hopkins et al., 2017a, arXiv:1702.06148
 #GALSF_SFR_VIRIAL_SF_CRITERION=0 # only allow star formation in virialized sub-regions (alpha<1) (0/no value='default'; 1=0+Jeans criterion; 2=1+'strict' (zero sf if not bound)), 3=2+converging-flow+time-smoothed. Cite Hopkins, Narayanan, & Murray 2013 (MNRAS, 432, 2647) and Hopkins et al., 2017a, arXiv:1702.06148; (or Grudic et al. arXiv:1708.09065 for option=3)
 #GALSF_SFR_IMF_VARIATION         # determines the stellar IMF for each particle from the Guszejnov/Hopkins/Hennebelle/Chabrier/Padoan theory. Cite Guszejnov, Hopkins, & Ma 2017, MNRAS, 472, 2107
-#GALSF_SFR_IMF_SAMPLING          # discretely sample the IMF: simplified model with quantized number of massive stars. Cite Kung-Yi Su, Hopkins, et al., Hayward, et al., 2017, "Discrete Effects in Stellar Feedback: Individual Supernovae, Hypernovae, and IMF Sampling in Dwarf Galaxies". 
+#GALSF_SFR_IMF_SAMPLING          # discretely sample the IMF: simplified model with quantized number of massive stars. Cite Kung-Yi Su, Hopkins, et al., Hayward, et al., 2017, "Discrete Effects in Stellar Feedback: Individual Supernovae, Hypernovae, and IMF Sampling in Dwarf Galaxies".
 #GALSF_GENERATIONS=1             # the number of star particles a gas particle may spawn (defaults to 1, set otherwise)
 ## ----------------------------------------------------------------------------------------------------------------------------
 # ---- sub-grid models (for large-volume simulations or modest/low resolution galaxy simulations) -----------------------------
@@ -431,7 +431,7 @@ LONGIDS                        # use long ints for IDs (needed for super-large s
 #MPISENDRECV_SIZELIMIT=100      # MPI debugging
 #MPISENDRECV_CHECKSUM           # MPI debugging
 #DONOTUSENODELIST               # MPI debugging
-#NOTYPEPREFIX_FFTW              # FFTW debugging (fftw-header/libraries accessed without type prefix, adopting whatever was
+NOTYPEPREFIX_FFTW              # FFTW debugging (fftw-header/libraries accessed without type prefix, adopting whatever was
                                 #   chosen as default at compile of fftw). Otherwise, the type prefix 'd' for double is used.
 #DOUBLEPRECISION_FFTW           # FFTW in double precision to match libraries
 # --------------------
@@ -439,17 +439,3 @@ LONGIDS                        # use long ints for IDs (needed for super-large s
 #ALLOW_IMBALANCED_GASPARTICLELOAD # increases All.MaxPartSph to All.MaxPart: can allow better load-balancing in some cases, but uses more memory. But use me if you run into errors where it can't fit the domain (where you would increase PartAllocFac, but can't for some reason)
 #SEPARATE_STELLARDOMAINDECOMP   # separate stars (ptype=4) and other non-gas particles in domain decomposition (may help load-balancing)
 ####################################################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
