@@ -62,7 +62,34 @@
 #KERNEL_CRK_FACES               # Use the consistent reproducing kernel [higher-order tensor corrections to kernel above, compared to our usual matrix formalism] from Frontiere, Raskin, and Owen to define the faces in MFM/MFV methods. can give more accurate closure, potentially improved accuracy in MHD problems. remains experimental for now.
 ####################################################################################################
 
-
+####################################################################################################
+# --------------------------------------- DM Annihilation
+####################################################################################################
+####   Annihilating DM: Method 1 (calculation at gas particles, NOTE: no DM mass is actually annihilated away!)   ####
+#DMANNIHILATION 				# Annihilating DM: Method 1 (calculation at gas particles)
+#INJECT_ENERGY                  # Test energy injection used for annihilating DM: Method 1 (calculation at gas particles) (switch DMANNIHILATION OFF)
+								# IMPORTANT: EnergyID for injection must be the ID of a GAS particle that RECEIVES the energy!
+## -----------------------------------------------------------------------------------------------------
+####   Annihilating DM: Method 2 (calculation at DM particles, NOTE: by default, DM mass is reduced due to annihilation)   ####
+#DMANNIHILATION_DM 			    # Annihilating DM: Method 2 (calculation at DM particles)
+#DMAF_KEEP_DM_MASS              # Set this flag in order to deactivate the mass loss of DM mass particles due to annihilation, DMAF energy will still be injected into gas
+							    # This is useful if the mass loss is so small that it can be neglected.
+#DMAF_LIMIT_DM_TIMESTEP=2       # Enforces that DM particle i is in a time bin not higher than DMAF_LIMIT_DM_TIMESTEP levels as compared to the time bins of gas particles that receive energy from it.
+#DMAF_DENSITY_WEIGHTED 		    # Instead of calculating the distribution of the energy from DM particle i to gas particles j according to solid angle, simply weight by density of particle j.
+#DMAF_DISABLE_BIAS_CORRECTION	# Disable the rescaling of the injection rate that accounts for expansion of the universe.
+								# NOTE: If this is off, e = mc^2 no longer holds exactly, but energy calculation is more accurate.
+#DMAF_INJECT_AFTER_DM_STEP      # Inject energy from DMAF into gas only after each (typically larger) DM time step. This will lead to less accuracy and more noisy results.
+#INJECT_ENERGY_DM			   # Test energy injection used for annihilating DM: Method 2 (calculation at DM particles) (switch DMANNIHILATION_DM OFF)
+								# NOTE: DM particle cross section and mass need to be defined in parameter file (although they are not used)!
+								# IMPORTANT: EnergyID for injection must be the ID of a DM particle that INJECTS the energy!
+## -----------------------------------------------------------------------------------------------------
+#STORE_MASS              		# Store the mass of each particle type as read from the ICs.
+								# This assumes that no other option changes the particle masses!
+                        		# Make sure that this assumption is correct!
+####################################################################################################
+# --------------------------------------- Structure finding
+####################################################################################################
+#VWEB                           # Compute velocity shear tensor for every particle
 
 ####################################################################################################
 # --------------------------------------- Additional Fluid Physics
@@ -363,6 +390,7 @@
 ####################################################################################################
 # --------------------
 # ----- General De-Bugging and Special Behaviors
+#FORCE_EQUAL_TIMESTEPS            # force equal time steps
 #DEVELOPER_MODE                 # allows you to modify various numerical parameters (courant factor, etc) at run-time
 #STOP_WHEN_BELOW_MINTIMESTEP    # forces code to quit when stepsize wants to go below MinSizeTimestep specified in the parameterfile
 #DEBUG                          # enables core-dumps and FPU exceptions
@@ -412,19 +440,3 @@
 #ALLOW_IMBALANCED_GASPARTICLELOAD # increases All.MaxPartSph to All.MaxPart: can allow better load-balancing in some cases, but uses more memory. But use me if you run into errors where it can't fit the domain (where you would increase PartAllocFac, but can't for some reason)
 #SEPARATE_STELLARDOMAINDECOMP   # separate stars (ptype=4) and other non-gas particles in domain decomposition (may help load-balancing)
 ####################################################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
