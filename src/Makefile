@@ -8,25 +8,25 @@
 #
 #  (1) Copy the file "Template-Config.sh"  to  "Config.sh"
 #
-#        cp Template-Config.sh Config.sh 
+#        cp Template-Config.sh Config.sh
 #
 #  (2) Edit "Config.sh" as needed for your application
 #
 #  (3) Run "make"
 #
 #
-#  New compile-time options should be added to the 
+#  New compile-time options should be added to the
 #  file "Template-Config.sh" only. Usually, the should be added
 #  there in the disabled/default version.
 #
 #  "Config.sh" should *not* be checked in to the repository
 #
-#  Note: It is possible to override the default name of the 
+#  Note: It is possible to override the default name of the
 #  Config.sh file, if desired, as well as the name of the
 #  executable. For example:
 #
 #   make  CONFIG=MyNewConf.sh  EXEC=GIZMO
-# 
+#
 #-----------------------------------------------------------------
 #
 # You might also be looking for the target system SYSTYPE option
@@ -40,7 +40,7 @@
 #        e.g. export SYSTYPE=Magny
 # or
 #
-# (B) set SYSTYPE in Makefile.systype 
+# (B) set SYSTYPE in Makefile.systype
 #     This file has priority over your shell variable.:
 #
 #     Uncomment your system in  "Makefile.systype".
@@ -52,7 +52,7 @@
 #
 # This file was originally part of the GADGET3 code developed by
 #   Volker Springel (volker.springel@h-its.org). The code has been modified
-#   slighty by Phil Hopkins (phopkins@caltech.edu) for GIZMO (mostly 
+#   slighty by Phil Hopkins (phopkins@caltech.edu) for GIZMO (mostly
 #   dealing with new files and filename conventions)
 #
 #############
@@ -150,8 +150,25 @@ FINCL =
 
 #----------------------------------------------------------------------------------------------
 ############## HARDCODE SYSTYPE HERE ##############
-SYSTYPE = "Flos-Dell"
+SYSTYPE = "GNU-Generic"
 ###################################################
+
+ifeq ($(SYSTYPE),"GNU-Generic")
+CC       =  mpicc #mpicc
+CXX      =  mpic++ #mpic++
+FC       =  $(CC)
+OPTIMIZE = -O3 -fopenmp
+MKL_INCL =
+MKL_LIBS =
+GSL_INCL =
+GSL_LIBS =
+FFTW_INCL=
+FFTW_LIBS=
+HDF5INCL =  -I/usr/include/hdf5/serial/ -DH5_USE_16_API # backwards compatibility!
+HDF5LIB  =  -L/usr/lib/x86_64-linux-gnu/hdf5/serial/lib/ -lhdf5 -lz
+GRACKLEINCL =
+GRACKLELIBS =
+endif
 
 ifeq ($(SYSTYPE),"Flos-Dell")
 CC       =  mpicc #mpicc
@@ -164,7 +181,7 @@ OPTIMIZE = -Og -g #-Wall #DO NOT USE -O3 here! For debugging, use: -Og
 MKL_INCL =
 MKL_LIBS =
 GSL_INCL =  -I/usr/local/include
-GSL_LIBS =  -L/usr/local/lib 
+GSL_LIBS =  -L/usr/local/lib
 FFTW_INCL=  -I/home/flo/Documents/Software/FFTW/fftw-2.1.5/Build/include
 FFTW_LIBS=  -L/home/flo/Documents/Software/FFTW/fftw-2.1.5/Build/lib
 HDF5INCL =  -I/home/flo/Documents/Software/HDF5/hdf5-1.10.4/Build/include -DH5_USE_16_API # backwards compatibility!
@@ -180,7 +197,7 @@ OPTIMIZE = -O0 -g -Wall #DO NOT USE -O3 here!
 MKL_INCL =
 MKL_LIBS =
 GSL_INCL =  -I/usr/local/include
-GSL_LIBS =  -L/usr/local/lib 
+GSL_LIBS =  -L/usr/local/lib
 FFTW_INCL=  -I/usr/local/include
 FFTW_LIBS=  -L/usr/local/lib
 HDF5INCL =  -I/home/flo/Documents/Uni/Sydney/Software/HDF5/hdf5-1.10.4/include -DH5_USE_16_API # backwards compatibility!
@@ -210,9 +227,9 @@ HDF5INCL = -I$(TACC_HDF5_INC) -DH5_USE_16_API
 HDF5LIB  = -L$(TACC_HDF5_LIB) -lhdf5 -lz
 #MPICHLIB =
 OPT     += -DUSE_MPI_IN_PLACE
-## modules to load: 
+## modules to load:
 ## module load intel mvapich2 gsl hdf5 fftw2
-##  -- performance is very similar with impi (intel-mpi) instead of mpavich2, 
+##  -- performance is very similar with impi (intel-mpi) instead of mpavich2,
 ##   if preferred use that with MPICHLIB line uncommented
 ## newest version of code needed for compatibility with calls in MPI-2 libraries
 ##
@@ -386,8 +403,8 @@ HDF5INCL = -I$(HDF5_HOME)/include -DH5_USE_16_API
 HDF5LIB  = -L$(HDF5_HOME)/lib -lhdf5 -lz
 MPICHLIB = #
 OPT     += # -DUSE_MPI_IN_PLACE
-## modules to load: 
-## module load intel/2011.4.191 impi/4.0.2.003 gsl/1.15-gcc HDF5 
+## modules to load:
+## module load intel/2011.4.191 impi/4.0.2.003 gsl/1.15-gcc HDF5
 ##  -- the machine is quite picky, impi seems to be the only working mpi option right now
 ##  --  currently fftw2 isnt pre-installed, built library in my directory, with config flags:
 ##       ./configure --prefix=/home/phopkins/fftw --enable-mpi --enable-type-prefix --enable-float --with-gcc
@@ -444,14 +461,14 @@ HDF5LIB  =  -L${SCINET_HDF5_LIB} -lhdf5 -lz
 MPICHLIB =
 ##
 ## Notes:
-## 
+##
 ### benchmarking suggests these optimizations, 256 cores with omp=4 or 2, no DOUBLE, multidomain=16 or 32, altogether gives best performance in
 ###   simple galaxy merger experiment (6x speedup over 16-core run with old-but-highly-optimized code).
 ##
 ## module load intel use.experimental openmpi/intel/1.6.0 gsl fftw/2.1.5-intel-openmpi hdf5/intel-openmpi/1.8.9
 ## NOTYPEPREFIX_FFTW should not be set on this machine
-## 
-## flags: 
+##
+## flags:
 ## OPT      += -DNOCALLSOFSYSTEM -DMPICH_IGNORE_CXX_SEEK -DNO_ISEND_IRECV_IN_DOMAIN
 ##   -- these used to be recommended, with new compiler settings they don't seem necessary, but may help
 ## If memory problems crash the code, recommend small-scale chunking: MPISENDRECV_SIZELIMIT=10-100 (but this costs speed!)
@@ -845,7 +862,7 @@ MPICHLIB =      # must be empty if using openmpi
 OPT     += -DFIX_PATHSCALE_MPI_STATUS_IGNORE_BUG
 ##
 ## Notes:
-## 
+##
 ## include the following in your .bashrc file (there is no default fftw2 module):
 ## module load intel/10.1 openmpi/1.2.4 gmp gsl hdf5 #now have to add fftw2 manually
 ## export TACC_FFTW2_INC=/opt/apps/intel10_1/openmpi_1_2_4/fftw2/2.1.5/include
@@ -861,7 +878,7 @@ endif
 
 #----------------------------------------------------------------------------------------------
 ifeq ($(SYSTYPE),"Ranger_pgi")
-CC       =  mpicc 
+CC       =  mpicc
 CXX      =  mpiCC
 FC       =  $(CC)
 OPTIMIZE = -tp barcelona-64 -fast -Mipa=fast,inline -Munroll -Mvect -O4
@@ -877,19 +894,19 @@ HDF5INCL = -I$(TACC_HDF5_INC)
 HDF5LIB  = -L$(TACC_HDF5_LIB) -lhdf5 -lz
 OPT     += -DFIX_PATHSCALE_MPI_STATUS_IGNORE_BUG
 OPT     += -DNOCALLSOFSYSTEM -DNO_ISEND_IRECV_IN_DOMAIN -DMPICH_IGNORE_CXX_SEEK
-## 
+##
 ## Notes:
 ##
 ## include the following in your .bashrc file:
 ##   module load pgi mvapich gmp gsl fftw2 hdf5
 ##   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/share/apps/binutils-amd/070220/lib64
-## 
+##
 endif
 
 #----------------------------------------------------------------------------------------------
 ifeq ($(SYSTYPE),"odyssey")
 CC       =  mpicc     # sets the C-compiler
-OPT      +=  -DMPICH_IGNORE_CXX_SEEK 
+OPT      +=  -DMPICH_IGNORE_CXX_SEEK
 FC       =  $(CC)
 OPTIMIZE = -g -O2 -Wall -Wno-unused-but-set-variable
 GSL_INCL =
@@ -928,7 +945,7 @@ FFTW_LIBS=  -L/opt/fftw-2.1.5/lib
 MPICHLIB =  -L/usr/lib/libmpi
 HDF5INCL =  -I/usr/include
 HDF5LIB  =  -L/usr/lib/libhdf5 -static -lhdf5 -lz
-endif 
+endif
 
 
 #----------------------------------------------------------------------------------------------
@@ -968,7 +985,7 @@ FFTW_INCL=  -I/afs/mpa/home/volker/Libs/include
 FFTW_LIBS=  -L/afs/mpa/home/volker/Libs/lib -Xlinker -R -Xlinker /afs/mpa/home/volker/Libs/lib
 MPICHLIB =
 HDF5INCL =  -I/afs/mpa/home/volker/Libs/include
-HDF5LIB  =  -L/afs/mpa/home/volker/Libs/lib -lhdf5 -lz 
+HDF5LIB  =  -L/afs/mpa/home/volker/Libs/lib -lhdf5 -lz
 OPT     +=  -DOLD_HDF5
 endif
 
@@ -1007,7 +1024,7 @@ HYDRO_OBJS = hydro/hydra_master.o hydro/density.o hydro/gradients.o eos/eos.o so
 L3_OBJS =
 
 
-OPTIONS = $(OPTIMIZE) $(OPT) 
+OPTIONS = $(OPTIMIZE) $(OPT)
 
 FOPTIONS = $(OPTIMIZE) $(FOPT)
 
@@ -1026,7 +1043,7 @@ INCL    += allvars.h proto.h gravity/forcetree.h domain.h system/myqsort.h kerne
 # DM ANNIHILATION
 ifeq (DMANNIHILATION_DM,$(findstring DMANNIHILATION_DM,$(CONFIGVARS)))
 OBJS    += DMAF/dm_annihilation.o DMAF/dm_fb.o DMAF/dm_rho_gas.o
-else 
+else
 ifeq (DMANNIHILATION,$(findstring DMANNIHILATION,$(CONFIGVARS)))
 OBJS    += DMAF/dm_annihilation.o
 endif
@@ -1147,7 +1164,7 @@ INCL	+= subfind/subfind.h
 endif
 
 ifeq (DM_SIDM,$(findstring DM_SIDM,$(CONFIGVARS)))
-OBJS    +=  sidm/sidm_core.o 
+OBJS    +=  sidm/sidm_core.o
 endif
 
 ifeq (NUCLEAR_NETWORK,$(findstring NUCLEAR_NETWORK,$(CONFIGVARS)))
@@ -1174,16 +1191,16 @@ CXXFLAGS = $(CFLAGS)
 FC    = $(CXX)
 endif
 
-FFTW = $(FFTW_LIBS)  $(FFTW_LIBNAMES) 
+FFTW = $(FFTW_LIBS)  $(FFTW_LIBNAMES)
 
 
 LIBS   = -lm $(HDF5LIB) -g $(MPICHLIB) $(GSL_LIBS) -lgsl -lgslcblas $(FFTW) $(GRACKLELIBS)
 
-ifeq (PTHREADS_NUM_THREADS,$(findstring PTHREADS_NUM_THREADS,$(CONFIGVARS))) 
+ifeq (PTHREADS_NUM_THREADS,$(findstring PTHREADS_NUM_THREADS,$(CONFIGVARS)))
 LIBS   +=  -lpthread
 endif
 
-$(EXEC): $(OBJS) $(FOBJS)  
+$(EXEC): $(OBJS) $(FOBJS)
 	$(FC) $(OPTIMIZE) $(OBJS) $(FOBJS) $(LIBS) $(RLIBS) -o $(EXEC)
 
 $(OBJS): $(INCL)  $(CONFIG)  compile_time_info.c
@@ -1196,5 +1213,3 @@ compile_time_info.c: $(CONFIG)
 
 clean:
 	rm -f $(OBJS) $(FOBJS) $(EXEC) *.oo *.c~ compile_time_info.c GIZMO_config.h
-
-
