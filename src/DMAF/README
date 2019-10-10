@@ -1,0 +1,16 @@
+Different methods:
+* Method 1 (activate using DMANNIHILATION): DMAF AT GAS
+  - DM density is calculated at each gas particle using smoothing length HsmlDM
+  - from DM density, DM annihilation rate at gas particle is calculated
+  - energy injection at each gas particle
+Files used in folder DMAF: 
+  - dm_annihilation.c for calculatation of DM density at gas particles
+
+* Method 2 (activate using DMANNIHILATION_DM, file dm_fb.c): DMAF AT DM
+  - gas density is calculated at each DM particle
+  - DM annihilation rate at DM particle is calculated
+  - energy is injected into surrounding gas particles
+Files used in folder DMAF: 
+  - dm_annihilation.c for calculation of DM density at DM particles
+  - dm_rho_gas.c for calculation of gas density at DM particles
+  - dm_fb.c for calculation of energy injection at each DM particle into surrounding gas particles

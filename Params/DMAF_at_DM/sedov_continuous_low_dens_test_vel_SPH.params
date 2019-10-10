@@ -1,0 +1,79 @@
+% Example compile-time options:
+%  (HYDRO_MESHLESS_FINITE_MASS is optional, replace with your
+%   choice of hydro/mhd options)
+%
+%        HYDRO_MESHLESS_FINITE_MASS
+%        BOX_PERIODIC 
+%        SELFGRAVITY_OFF 
+%        EOS_GAMMA=(5.0/3.0)
+%        DEVELOPER_MODE
+%
+InitCondFile                       /home/flo/Documents/Software/DMAF_GIZMO/DMAF_ICs/Sedov_Taylor_3D/homo_DM_test_vel_low_dens
+OutputDir                          /home/flo/Documents/Software/DMAF_GIZMO/DMAF_Output/DMAF_at_DM/Sedov_Taylor_3D/test_vel/SPH
+RestartFile                        restart
+SnapshotFileBase                   snapshot
+OutputListFilename                 output_times.txt
+ICFormat                           3
+SnapFormat                         3
+TimeLimitCPU                       100000
+CpuTimeBetRestartFile              7200
+ResubmitOn                         0
+ResubmitCommand                    my-scriptfile
+MaxMemSize                         400
+PartAllocFactor                    2
+BufferSize                         100
+TimeBegin                          0
+TimeMax                            5
+ComovingIntegrationOn              0
+Omega0                             0
+OmegaLambda                        0
+OmegaBaryon                        0
+HubbleParam                        1
+BoxSize                            6
+
+% Energy Injection DM
+EnergySource 					   1.47519e-07 % 1
+EnergyID 						   -1 % 8002
+DarkParticleMass 				   1 % DM particle mass is not used but must be set
+AnnihilationCrossSection           1e-26 % DM velocity cross section is not used but must be set
+
+OutputListOn                       0
+TimeBetSnapshot                    1
+TimeOfFirstSnapshot                0
+TimeBetStatistics                  0.195312  % corresponds to bin 20
+NumFilesPerSnapshot                1
+NumFilesWrittenInParallel          1
+ErrTolIntAccuracy                  0.002
+CourantFac                         0.05
+MaxRMSDisplacementFac              0.1
+MaxSizeTimestep                    0.25
+MinSizeTimestep                    0
+ErrTolTheta                        0.7
+ErrTolForceAcc                     0.0015
+TreeDomainUpdateFrequency          0.05
+DesNumNgb                          32
+MaxNumNgbDeviation                 0.05
+ArtBulkViscConst                   1
+UnitLength_in_cm                   3.08568e+21
+UnitMass_in_g                      1.989e+43
+UnitVelocity_in_cm_per_s           100000
+GravityConstantInternal            0
+MaxHsml                            2000
+MinGasHsmlFractional               0.1
+SofteningGas                       0.05
+SofteningHalo                      0.07
+SofteningDisk                      0.003
+SofteningBulge                     0.003
+SofteningStars                     0.003
+SofteningBndry                     0.003
+SofteningGasMaxPhys                0.05
+SofteningHaloMaxPhys               0.07
+SofteningDiskMaxPhys               0.003
+SofteningBulgeMaxPhys              0.003
+SofteningStarsMaxPhys              0.003
+SofteningBndryMaxPhys              0.003
+InitGasTemp                        0
+MinGasTemp                         0
+ArtCondConstant                    0.5
+ViscosityAMin                      0.05
+ViscosityAMax                      2

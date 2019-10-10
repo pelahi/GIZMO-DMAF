@@ -1,0 +1,82 @@
+2019-05-21 10:33:05
+
+The Grackle Version 3.1
+Git Branch   master
+Git Revision 64f2a72729a6d378fe167761a5977591cc5b8277
+
+Grackle build options:
+
+   MACHINE: Flo_Dell
+   MACHINE-NAME: linux-gnu
+
+   CONFIG_PRECISION  [precision-{32,64}]                     : 64
+   CONFIG_OPT  [opt-{warn,debug,high,aggressive}]            : high
+   CONFIG_OMP  [omp-{on,off}]                                : on
+
+Grackle build flags:
+
+CPP = 
+CC  = /usr/bin/gcc
+CXX = /usr/bin/g++
+FC  = /usr/bin/gfortran
+F90 = /usr/bin/gfortran
+LD  = /usr/bin/gcc
+LIBTOOL = /home/flo/Documents/Software/Anaconda/anaconda3/bin/libtool
+
+DEFINES = -DLINUX -DH5_USE_16_API -fPIC  -DCONFIG_BFLOAT_8
+
+INCLUDES = -I/home/flo/Documents/Software/HDF5/hdf5-1.10.4/Build/include     -I.
+
+CPPFLAGS = -P -traditional
+CFLAGS   =  -O2 -fopenmp
+CXXFLAGS =  -O2 -fopenmp
+FFLAGS   = -fno-second-underscore -ffixed-line-length-132 -O2 -fopenmp
+F90FLAGS = -fno-second-underscore -O2 -fopenmp
+LDFLAGS  =  
+
+LIBS     = -L/home/flo/Documents/Software/HDF5/hdf5-1.10.4/Build/lib -lhdf5  -lgfortran 
+
+Grackle run-time parameters:
+use_grackle                       = 1
+with_radiative_cooling            = 1
+primordial_chemistry              = 3
+metal_cooling                     = 1
+UVbackground                      = 1
+grackle_data_file                 = /home/flo/Documents/Software/DMAF_GIZMO/DMAF-master/Grackle_HM2012.h5
+cmb_temperature_floor             = 1
+Gamma                             = 1.66667
+h2_on_dust                        = 0
+photoelectric_heating             = 1
+photoelectric_heating_rate        = 8.5e-26
+use_volumetric_heating_rate       = 0
+use_specific_heating_rate         = 0
+three_body_rate                   = 0
+cie_cooling                       = 0
+h2_optical_depth_approximation    = 0
+ih2co                             = 1
+ipiht                             = 1
+HydrogenFractionByMass            = 0.76
+DeuteriumToHydrogenRatio          = 6.8e-05
+SolarMetalFractionByMass          = 0.01295
+NumberOfTemperatureBins           = 600
+CaseBRecombination                = 0
+TemperatureStart                  = 1
+TemperatureEnd                    = 1e+09
+NumberOfDustTemperatureBins       = 250
+DustTemperatureStart              = 1
+DustTemperatureEnd                = 1500
+Compton_xray_heating              = 1
+LWbackground_sawtooth_suppression = 0
+LWbackground_intensity            = 0
+UVbackground_redshift_on          = -99999
+UVbackground_redshift_off         = -99999
+UVbackground_redshift_fullon      = -99999
+UVbackground_redshift_drop        = -99999
+cloudy_electron_fraction_factor   = 0.00915396
+use_radiative_transfer            = 0
+radiative_transfer_coupled_rate_solver = 0
+radiative_transfer_intermediate_step = 0
+radiative_transfer_hydrogen_only  = 0
+self_shielding_method             = 0
+H2_self_shielding                 = 0
+omp_nthreads                      = 8
